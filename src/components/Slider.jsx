@@ -1,18 +1,19 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
-import React from 'react'
+import {useState} from 'react'
 import styled from 'styled-components';
+import {sliderItems} from "../data"
 
 const Container = styled.div`
 width: 100%;
 height: 100vh;
 display: flex;
 position: relative;
-/* overflow: hidden; */
+overflow: hidden;
 `;
 const Arrow = styled.div`
 width: 50px;
 height: 50px;
-background-color: lightgrey;
+background-color: coral;
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -21,15 +22,16 @@ position: absolute;
 top: 0;
 bottom: 0;
 margin: auto;
-left: ${props=> props.direction === "left" && "20px"};
-right: ${props=> props.direction === "right" && "20px"};
+left: ${props=> props.direction === "left" && "10px"};
+right: ${props=> props.direction === "right" && "10px"};
 cursor: pointer;
-opacity: 0.5;
+opacity: 1;
+z-index: 2;
 `;
 const Wrapper = styled.div`
 display: flex;
 height: 100%;
-/* transform: translateX(-100vw); */
+transform: translateX(${props=>props.slideIndex * -100}vw);
 `;
 const Slide = styled.div`
 display: flex;
@@ -41,8 +43,6 @@ background-color: #${props => props.bg};
 `;
 const ImgContainer = styled.div`
 flex: 1;
-/* margin-right: 20px;
-width: 50%; */
 height: 100%;
 `;
 const Image = styled.img`
@@ -50,8 +50,6 @@ height: 80%;
 `;
 const InfoContainer = styled.div`
 flex: 1;
-/* margin-left: 20px; */
-/* width: 50%; */
 padding: 50px;
 `;
 const Title = styled.h1`
@@ -60,7 +58,7 @@ font-size: 70px;
 const Description = styled.p`
 font-size: 20px;
 font-weight: 500;
-letter-spacing: 3px;
+letter-spacing: 2px;
 margin: 50px 0;
 
 `;
@@ -75,47 +73,36 @@ cursor: pointer;
 `;
 
 
-
-
 const Slider = () => {
+    const [slideIndex, setslideIndex] = useState(0);
+    const handleClick = (direction)=>{
+        if(direction === "left"){
+            setslideIndex(slideIndex > 0 ? slideIndex -1  : 2)
+        }else{
+            setslideIndex(slideIndex < 2 ? slideIndex +1  : 0)
+        }
+   };
     return (
         <Container>
-            <Arrow direction="left">
+            <Arrow direction="left" onClick={()=> handleClick("left")}>
                 <ArrowLeftOutlined/>
             </Arrow>
-            <Wrapper>
-            <Slide bg="f5fafd">
+            <Wrapper slideIndex = {slideIndex}>
+            {sliderItems.map(item=>(
+
+            <Slide bg={item.bg}>
                 <ImgContainer>
-                    <Image src="https://lh3.googleusercontent.com/proxy/jDwgYuzunTA9CAeQBvN_HtalnKrBs5EdaAjesZ-NszhHbMZWTTo0jWLjRahtIvgSduS1I5M0HyLiTpM0jTW6clMEt87HzhGGfhA8TzT7AQNxgsjLzEJhkF8ySr2zI3h0zyS0cvIZSbPc1oM"/>
+                    <Image src={item.img}/>
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>SUMMER SALE</Title>
-                    <Description>Don't Compromise on style,Get flat 30% off for new arrivals</Description>
+                    <Title>{item.title}</Title>
+                    <Description>{item.desc}</Description>
                     <Button>SHOW NOW</Button>
                 </InfoContainer>
             </Slide>
-            <Slide bg="fcf1ed">
-                <ImgContainer>
-                    <Image src="https://lh3.googleusercontent.com/proxy/jDwgYuzunTA9CAeQBvN_HtalnKrBs5EdaAjesZ-NszhHbMZWTTo0jWLjRahtIvgSduS1I5M0HyLiTpM0jTW6clMEt87HzhGGfhA8TzT7AQNxgsjLzEJhkF8ySr2zI3h0zyS0cvIZSbPc1oM"/>
-                </ImgContainer>
-                <InfoContainer>
-                    <Title>SUMMER SALE</Title>
-                    <Description>Don't Compromise on style,Get flat 30% off for new arrivals</Description>
-                    <Button>SHOW NOW</Button>
-                </InfoContainer>
-            </Slide>
-            <Slide bg="f5fafd">
-                <ImgContainer>
-                    <Image src="https://lh3.googleusercontent.com/proxy/jDwgYuzunTA9CAeQBvN_HtalnKrBs5EdaAjesZ-NszhHbMZWTTo0jWLjRahtIvgSduS1I5M0HyLiTpM0jTW6clMEt87HzhGGfhA8TzT7AQNxgsjLzEJhkF8ySr2zI3h0zyS0cvIZSbPc1oM"/>
-                </ImgContainer>
-                <InfoContainer>
-                    <Title>SUMMER SALE</Title>
-                    <Description>Don't Compromise on style,Get flat 30% off for new arrivals</Description>
-                    <Button>SHOW NOW</Button>
-                </InfoContainer>
-            </Slide>
+            ))}
             </Wrapper>
-            <Arrow direction="right">
+            <Arrow direction="right" onClick={()=> handleClick("right")}>
                 <ArrowRightOutlined/>
             </Arrow>
         </Container>
