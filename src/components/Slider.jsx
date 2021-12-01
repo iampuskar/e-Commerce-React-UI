@@ -13,7 +13,7 @@ overflow: hidden;
 const Arrow = styled.div`
 width: 50px;
 height: 50px;
-background-color: coral;
+background-color: lightgrey;
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -27,7 +27,13 @@ right: ${props=> props.direction === "right" && "10px"};
 cursor: pointer;
 opacity: 1;
 z-index: 2;
-`;
+transition: all 0.3s ease;
+
+&:hover{
+    background-color: teal;
+    transform: scale(1.1);
+}
+`
 const Wrapper = styled.div`
 display: flex;
 height: 100%;
@@ -45,9 +51,11 @@ background-color: #${props => props.bg};
 const ImgContainer = styled.div`
 flex: 1;
 height: 100%;
+margin-left: 70px;
 `;
 const Image = styled.img`
 height: 80%;
+
 `;
 const InfoContainer = styled.div`
 flex: 1;
@@ -68,9 +76,15 @@ padding: 10px;
 border: 1px solid black;
 font-size: 18px;
 font-weight: 500;
-background-color: black;
+background-color: teal;
 color: white;
 cursor: pointer;
+transition: all 0.3s ease;
+
+&:hover{
+    background-color: black;
+    transform: scale(1.1);
+}
 `;
 
 
@@ -91,7 +105,7 @@ const Slider = () => {
             <Wrapper slideIndex = {slideIndex}>
             {sliderItems.map(item=>(
 
-            <Slide bg={item.bg}>
+            <Slide bg={item.bg} key={item.id}>
                 <ImgContainer>
                     <Image src={item.img}/>
                 </ImgContainer>
