@@ -1,11 +1,13 @@
 import { Facebook, Instagram, Pinterest, Twitter, Room, Phone, MailOutline } from '@material-ui/icons'
 import React from 'react'
 import styled from 'styled-components'
+import {mobile} from '../Responsive'
 
 const Container = styled.div`
 display: flex;
 padding: 20px;
 background-color: teal;
+${mobile({ flexDirection:"column" })}
 `
 
 const Left = styled.div`
@@ -17,6 +19,7 @@ const Center = styled.div`
 flex: 1;
 padding: 20px;
 color: white;
+${mobile({ display:"none" })}
 `
 const Title = styled.h3`
 margin-bottom: 30px;
@@ -38,6 +41,7 @@ const Right = styled.div`
 flex: 1;
 padding: 20px;
 color: white;
+
 `
 const Logo = styled.h2``
 const Desc = styled.p`
