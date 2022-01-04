@@ -6,6 +6,11 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import Newsletter from '../components/Newsletter'
 import {mobile} from '../Responsive'
+import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { publicRequest } from '../requestMethod'
+import { addProduct } from '../redux/cartRedux'
+import { useDispatch } from 'react-redux'
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -124,6 +129,45 @@ transition: all .3s ease;
 `
 
 const Product = () => {
+
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+    const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const [color, setColor] = useState("");
+    const [size, setSize] = useState("");
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const getProduct = async ()=> {
+            try{
+              const res = await publicRequest.get("/products/find/"+id);
+              setProduct(res.data);
+
+
+            }catch(err){
+                console.log(err);
+
+            }
+        };
+
+        getProduct();
+        
+    }, [id])
+
+const handleQuantity = (type) =>{
+    if (type === "desc"){
+        quantity > 1 && setQuantity(quantity-1 );
+    }else{
+        setQuantity(quantity+1);
+    }
+
+}
+
+const handleClick = ()=>{
+     dispatch( addProduct({...product, quantity, color, size }));
+    //  console.log(product);
+};
     return (
         <Container>
             <Navbar/>
@@ -131,37 +175,38 @@ const Product = () => {
 
             <Wrapper>
                 <ImgContainer>
-                    <Image src="https://i.ibb.co/S6qMxwr/jean.jpg"/>
+                    <Image src={product.img}/>
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>Denim Pullover</Title>
-                    <Desc>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book. </Desc>
-                    <Price>$ 20</Price>
+                    <Title>{product.title}</Title>
+                    <Desc>{product.desc}</Desc>
+                    <Price>$ {product.price}</Price>
                     <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <Filtercolor color = "black" />
-                        <Filtercolor color = "darkblue" />
-                        <Filtercolor color = "grey" />
+                        {product.color?.map((c)=>(
+
+                        <Filtercolor color = {c} key={c} onClick={()=>setColor(c)}/>
+                        
+                        ))}
                     </Filter>
                     <Filter>
                         <FilterTitle>Size</FilterTitle>
-                        <Select>
-                            <Option Selected>XS</Option>
-                            <Option Selected>M</Option>
-                            <Option Selected>L</Option>
+                        <Select onChange={(e)=>setSize(e.target.value)}>
+                            {product.size?.map((s) =>(
+                            <Option Selected key={s}>{s} </Option>
+                            ))}
+                            
                         </Select>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
-                        <Remove/>
-                        <Amount>1</Amount>
-                        <Add/>
+                        <Remove onClick={()=>handleQuantity("desc")}/>
+                        <Amount>{quantity}</Amount>
+                        <Add onClick={()=>handleQuantity("inc")}/>
                     </AmountContainer>
-                    <Button>Add to Cart</Button>
+                    <Button onClick={handleClick}>Add to Cart</Button>
                 </AddContainer>
                 </InfoContainer>     
             </Wrapper>

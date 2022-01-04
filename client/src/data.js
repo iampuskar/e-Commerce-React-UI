@@ -15,7 +15,7 @@ export const sliderItems = [
     },
     {
         id: 3,
-        img: "https://i.dlpng.com/static/png/7255491_preview.png" ,
+        img: "https://www.pngitem.com/pimgs/m/19-198197_happy-girl-shopping-png-transparent-png.png" ,
         title:"LOUNGEWEAR LOVE",
         desc:"Don't Compromise on style,Get flat 30% off for new arrivals",
         bg:"f5fafd",
@@ -27,7 +27,7 @@ export const categories = [
         id: 1,
         img:"https://images.pexels.com/photos/6747302/pexels-photo-6747302.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
         title:"SHIRT STYLE",
-        cat:"women",
+        cat:"woman",
     },
     {
         id: 2,

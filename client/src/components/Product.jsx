@@ -1,6 +1,10 @@
 import { FavoriteBorder, SearchOutlined, ShoppingCartOutlined } from '@material-ui/icons'
-import React from 'react'
 import styled from 'styled-components'
+import React from 'react'
+// import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
+// import { publicRequest } from '../requestMethod'
 
 const Info = styled.div`
 opacity: 0;
@@ -67,6 +71,7 @@ transition: all 0.5s ease;
 
 
 const Product = ({item}) => {
+    
     return (
         <Container>
             <Circle/>
@@ -76,7 +81,9 @@ const Product = ({item}) => {
                     <ShoppingCartOutlined/>                
                 </Icon>
                 <Icon>
+                <Link to={`/product/${item._id}`}>
                     <SearchOutlined/>
+                </Link>
                 </Icon>
                 <Icon>
                     <FavoriteBorder/>
